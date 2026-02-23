@@ -6,32 +6,16 @@ Pack Service for OpenViking.
 Provides ovpack export/import operations.
 """
 
-from typing import Optional
-
+from openviking.service._helpers import VikingFSService
 from openviking.storage.local_fs import export_ovpack as local_export_ovpack
 from openviking.storage.local_fs import import_ovpack as local_import_ovpack
-from openviking.storage.viking_fs import VikingFS
-from openviking_cli.exceptions import NotInitializedError
 from openviking_cli.utils import get_logger
 
 logger = get_logger(__name__)
 
 
-class PackService:
+class PackService(VikingFSService):
     """OVPack export/import service."""
-
-    def __init__(self, viking_fs: Optional[VikingFS] = None):
-        self._viking_fs = viking_fs
-
-    def set_viking_fs(self, viking_fs: VikingFS) -> None:
-        """Set VikingFS instance (for deferred initialization)."""
-        self._viking_fs = viking_fs
-
-    def _ensure_initialized(self) -> VikingFS:
-        """Ensure VikingFS is initialized."""
-        if not self._viking_fs:
-            raise NotInitializedError("VikingFS")
-        return self._viking_fs
 
     async def export_ovpack(self, uri: str, to: str) -> str:
         """Export specified context path as .ovpack file.

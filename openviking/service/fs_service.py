@@ -8,28 +8,14 @@ Provides file system operations: ls, mkdir, rm, mv, tree, stat, read, abstract, 
 
 from typing import Any, Dict, List, Optional
 
-from openviking.storage.viking_fs import VikingFS
-from openviking_cli.exceptions import NotInitializedError
+from openviking.service._helpers import VikingFSService
 from openviking_cli.utils import get_logger
 
 logger = get_logger(__name__)
 
 
-class FSService:
+class FSService(VikingFSService):
     """File system operations service."""
-
-    def __init__(self, viking_fs: Optional[VikingFS] = None):
-        self._viking_fs = viking_fs
-
-    def set_viking_fs(self, viking_fs: VikingFS) -> None:
-        """Set VikingFS instance (for deferred initialization)."""
-        self._viking_fs = viking_fs
-
-    def _ensure_initialized(self) -> VikingFS:
-        """Ensure VikingFS is initialized."""
-        if not self._viking_fs:
-            raise NotInitializedError("VikingFS")
-        return self._viking_fs
 
     async def ls(
         self,

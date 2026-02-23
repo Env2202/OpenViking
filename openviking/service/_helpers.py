@@ -4,9 +4,15 @@
 Shared helpers for the service layer.
 """
 
-from typing import Any, Dict
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
 from openviking.storage.queuefs.named_queue import QueueStatus
+from openviking_cli.exceptions import NotInitializedError
+
+if TYPE_CHECKING:
+    from openviking.storage.viking_fs import VikingFS
 
 
 def serialize_queue_status(status: Dict[str, QueueStatus]) -> Dict[str, Any]:
@@ -28,3 +34,25 @@ def serialize_queue_status(status: Dict[str, QueueStatus]) -> Dict[str, Any]:
         }
         for name, s in status.items()
     }
+
+
+class VikingFSService:
+    """Base class for services that depend on a single VikingFS instance.
+
+    Provides a shared ``__init__``, ``set_viking_fs``, and
+    ``_ensure_initialized`` so that each sub-service does not need to
+    duplicate the same boilerplate.
+    """
+
+    def __init__(self, viking_fs: Optional[VikingFS] = None) -> None:
+        self._viking_fs = viking_fs
+
+    def set_viking_fs(self, viking_fs: VikingFS) -> None:
+        """Set VikingFS instance (for deferred initialization)."""
+        self._viking_fs = viking_fs
+
+    def _ensure_initialized(self) -> VikingFS:
+        """Return the VikingFS instance, raising if not yet set."""
+        if not self._viking_fs:
+            raise NotInitializedError("VikingFS")
+        return self._viking_fs

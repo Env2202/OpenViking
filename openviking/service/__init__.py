@@ -7,6 +7,7 @@ Provides business logic decoupled from transport layer,
 enabling reuse across HTTP Server and CLI.
 """
 
+from openviking.service._helpers import VikingFSService
 from openviking.service.core import OpenVikingService
 from openviking.service.debug_service import ComponentStatus, DebugService, SystemStatus
 from openviking.service.fs_service import FSService
@@ -18,6 +19,7 @@ from openviking.service.session_service import SessionService
 
 __all__ = [
     "OpenVikingService",
+    "VikingFSService",
     "ComponentStatus",
     "DebugService",
     "SystemStatus",

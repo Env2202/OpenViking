@@ -6,30 +6,16 @@ Relation Service for OpenViking.
 Provides relation management operations: relations, link, unlink.
 """
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Union
 
-from openviking.storage.viking_fs import VikingFS
-from openviking_cli.exceptions import NotInitializedError
+from openviking.service._helpers import VikingFSService
 from openviking_cli.utils import get_logger
 
 logger = get_logger(__name__)
 
 
-class RelationService:
+class RelationService(VikingFSService):
     """Relation management service."""
-
-    def __init__(self, viking_fs: Optional[VikingFS] = None):
-        self._viking_fs = viking_fs
-
-    def set_viking_fs(self, viking_fs: VikingFS) -> None:
-        """Set VikingFS instance (for deferred initialization)."""
-        self._viking_fs = viking_fs
-
-    def _ensure_initialized(self) -> VikingFS:
-        """Ensure VikingFS is initialized."""
-        if not self._viking_fs:
-            raise NotInitializedError("VikingFS")
-        return self._viking_fs
 
     async def relations(self, uri: str) -> List[Dict[str, Any]]:
         """Get relations (returns [{"uri": "...", "reason": "..."}, ...])."""
