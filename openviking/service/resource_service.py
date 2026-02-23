@@ -8,6 +8,7 @@ Provides resource management operations: add_resource, add_skill, wait_processed
 
 from typing import Any, Dict, Optional
 
+from openviking.service._helpers import serialize_queue_status
 from openviking.storage import VikingDBManager
 from openviking.storage.queuefs import get_queue_manager
 from openviking.storage.viking_fs import VikingFS
@@ -117,14 +118,7 @@ class ResourceService:
                 status = await qm.wait_complete(timeout=timeout)
             except TimeoutError as exc:
                 raise DeadlineExceededError("queue processing", timeout) from exc
-            result["queue_status"] = {
-                name: {
-                    "processed": s.processed,
-                    "error_count": s.error_count,
-                    "errors": [{"message": e.message} for e in s.errors],
-                }
-                for name, s in status.items()
-            }
+            result["queue_status"] = serialize_queue_status(status)
 
         return result
 
@@ -158,14 +152,7 @@ class ResourceService:
                 status = await qm.wait_complete(timeout=timeout)
             except TimeoutError as exc:
                 raise DeadlineExceededError("queue processing", timeout) from exc
-            result["queue_status"] = {
-                name: {
-                    "processed": s.processed,
-                    "error_count": s.error_count,
-                    "errors": [{"message": e.message} for e in s.errors],
-                }
-                for name, s in status.items()
-            }
+            result["queue_status"] = serialize_queue_status(status)
 
         return result
 
@@ -183,11 +170,4 @@ class ResourceService:
             status = await qm.wait_complete(timeout=timeout)
         except TimeoutError as exc:
             raise DeadlineExceededError("queue processing", timeout) from exc
-        return {
-            name: {
-                "processed": s.processed,
-                "error_count": s.error_count,
-                "errors": [{"message": e.message} for e in s.errors],
-            }
-            for name, s in status.items()
-        }
+        return serialize_queue_status(status)
