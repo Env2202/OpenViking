@@ -64,15 +64,32 @@ OpenViking 是为 AI Agent 设计的上下文数据库，将所有上下文（Me
 
 Service 层将业务逻辑与传输层解耦，便于 HTTP Server 和 CLI 复用：
 
-| Service | 职责 | 主要方法 |
-|---------|------|----------|
-| **FSService** | 文件系统操作 | ls, mkdir, rm, mv, tree, stat, read, abstract, overview, grep, glob |
-| **SearchService** | 语义搜索 | search, find |
-| **SessionService** | 会话管理 | session, sessions, commit, delete |
-| **ResourceService** | 资源导入 | add_resource, add_skill, wait_processed |
-| **RelationService** | 关联管理 | relations, link, unlink |
-| **PackService** | 导入导出 | export_ovpack, import_ovpack |
-| **DebugService** | 调试服务 | observer (ObserverService) |
+| Service | 职责 | 主要方法 | 基类 |
+|---------|------|----------|------|
+| **FSService** | 文件系统操作 | ls, mkdir, rm, mv, tree, stat, read, abstract, overview, grep, glob | `VikingFSService` |
+| **SearchService** | 语义搜索 | search, find | `VikingFSService` |
+| **SessionService** | 会话管理 | session, sessions, commit, delete | — |
+| **ResourceService** | 资源导入 | add_resource, add_skill, wait_processed | — |
+| **RelationService** | 关联管理 | relations, link, unlink | `VikingFSService` |
+| **PackService** | 导入导出 | export_ovpack, import_ovpack | `VikingFSService` |
+| **DebugService** | 调试服务 | observer (ObserverService) | — |
+
+### Service 基类
+
+依赖单个 `VikingFS` 实例的服务继承 `VikingFSService`（定义在 `openviking/service/_helpers.py`）：
+
+```python
+from openviking.service import VikingFSService
+
+class MyService(VikingFSService):
+    """继承 __init__、set_viking_fs 和 _ensure_initialized"""
+    
+    async def do_something(self):
+        vfs = self._ensure_initialized()  # 返回 VikingFS 或抛出 NotInitializedError
+        return await vfs.some_operation()
+```
+
+具有多依赖的服务（如 `ResourceService`，需要 `VikingFS`、`ResourceProcessor` 和 `SkillProcessor`）实现自己的初始化逻辑。
 
 ## 双层存储
 
@@ -172,3 +189,4 @@ curl http://localhost:1933/api/v1/search/find \
 - [检索机制](./07-retrieval.md) - 检索流程详解
 - [上下文提取](./06-extraction.md) - 解析和提取流程
 - [会话管理](./08-session.md) - 会话和记忆管理
+- [重构计划](../../REFACTOR_PLAN.md) - 代码重构计划

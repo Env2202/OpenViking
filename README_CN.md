@@ -380,6 +380,8 @@ OpenViking/
 │   ├── models/             # 模型集成：VLM 和 Embedding 模型的封装
 │   ├── parse/              # 资源解析：文件解析、资源检测、OVPack 格式处理
 │   ├── retrieve/           # 检索模块：语义检索、目录递归检索等
+│   ├── service/            # 服务层：业务逻辑（FSService、SearchService 等）
+│   │   └── _helpers.py     # 共享辅助类：VikingFSService 基类、工具函数
 │   ├── storage/            # 存储层：向量数据库、文件系统队列、观察者模式
 │   ├── session/            # 会话管理：对话历史、记忆提取等
 │   ├── message/            # 消息处理：消息格式化、转换等
@@ -396,12 +398,14 @@ OpenViking/
 │   ├── engine/             # 引擎测试
 │   ├── integration/        # 集成测试
 │   ├── session/            # 会话测试
+│   ├── misc/               # 其他测试（重构辅助类等）
 │   └── vectordb/           # 向量数据库测试
 ├── src/                     # C++ 扩展模块（高性能索引和存储）
 │   ├── common/             # 公共组件
 │   ├── index/              # 索引实现
 │   └── store/              # 存储实现
 ├── third_party/             # 第三方依赖
+├── REFACTOR_PLAN.md         # 重构计划文档
 ├── pyproject.toml           # Python 项目配置文件
 ├── setup.py                 # 安装脚本
 ├── LICENSE                  # 开源协议
@@ -410,6 +414,15 @@ OpenViking/
 └── README.md                # 项目说明文档
 ```
 
+### 服务层架构
+
+服务层（`openviking/service/`）采用基类模式来管理依赖 `VikingFS` 的服务：
+
+- **VikingFSService**：基类，提供 `__init__`、`set_viking_fs` 和 `_ensure_initialized` 方法
+- **FSService**、**SearchService**、**RelationService**、**PackService**：继承 `VikingFSService`
+- **SessionService**、**ResourceService**：自定义初始化（多依赖）
+
+详见 [架构概述](./docs/zh/concepts/01-architecture.md)。
 
 ---
 
