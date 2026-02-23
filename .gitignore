@@ -1,171 +1,314 @@
-# Byte-compiled / optimized / DLL files
+__pycache__/
+venv/
+.venv/
+
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.pyo
+*.pyd
 *.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
+.venv/
+venv/
+env/
+ENV/
 *.egg-info/
-.installed.cfg
+dist/
+build/
+.eggs/
 *.egg
-MANIFEST
-openviking.egg-info/
-data/
-
-# Rust
-Cargo.lock
-target/
-**/*.rs.bk
-*.pdb
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Unit test / coverage reports
-htmlcov/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
 .tox/
 .nox/
 .coverage
 .coverage.*
-.cache
-nosetests.xml
+htmlcov/
+.pytest_cache/
+pytest_cache/
 coverage.xml
 *.cover
 *.py,cover
-.hypothesis/
-.pytest_cache/
+.mypy_cache/
 .ruff_cache/
-cover/
-test_data/
+.pytype/
+.pyre/
+.pyright/
+cython_debug/
+*.manifest
+*.spec
+.installed.cfg
+MANIFEST
 
-# Virtual environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE
-.vscode/
+# IDE / Editors
 .idea/
+.vscode/
 *.swp
 *.swo
 *~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
+.spyderproject
+.spyproject
+.ropeproject
+*.code-workspace
+.history/
+.ionide/
 
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
+# Node.js / JavaScript / TypeScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm/
+.yarn/
+.pnpm-store/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.next/
+.nuxt/
+.output/
+.cache/
+.parcel-cache/
+.turbo/
+.svelte-kit/
+.vercel/
+.netlify/
+.docusaurus/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vuepress/dist
+.temp/
 
-# Thumbnails
-._*
+# Java / JVM / Kotlin / Scala
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+target/
+.gradle/
+gradle/
+!gradle/wrapper/gradle-wrapper.jar
+.gradletasknamecache
+out/
+*.hprof
+hs_err_pid*
+replay_pid*
+.metals/
+.bloop/
+.bsp/
+project/target/
+project/project/
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
+# Rust
+target/
+**/*.rs.bk
+Cargo.lock
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# OpenViking specific
-/data/*
-/demo_data/*
-/benchmark_data/*
-.claude
-.openviking
-
-# AI Coding
-CLAUDE.md
+# Go
+*.exe
+*.exe~
+*.dll
 *.so
-AGENTS.md
+*.dylib
+*.test
+*.out
+go.work
+go.work.sum
+vendor/
 
-# Git worktrees
-.worktrees/
+# C/C++
+*.o
+*.a
+*.lib
+*.obj
+*.ko
+*.elf
+*.pch
+*.pdb
+*.ilk
+*.exp
+*.gch
+*.dSYM/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+*.gcno
+*.gcda
+*.gcov
 
-# Logs
+# .NET / C#
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.user
+*.suo
+*.userossscache
+*.sln.docstates
+packages/
+*.nupkg
+project.lock.json
+.nuget/
+*.snupkg
+
+# Ruby
+*.gem
+*.rbc
+.bundle/
+vendor/bundle
+.byebug_history
+
+# PHP
+vendor/
+composer.lock
+.phpunit.result.cache
+
+# Swift / Objective-C / Xcode
+*.xcworkspace/
+*.xcuserstate
+xcuserdata/
+DerivedData/
+Pods/
+.build/
+Package.resolved
+*.playground/
+
+# Elixir / Erlang
+_build/
+deps/
+*.ez
+*.beam
+erl_crash.dump
+*.plt
+.elixir_ls/
+
+# Haskell
+dist/
+dist-newstyle/
+cabal-dev/
+*.o
+*.hi
+*.hie
+*.chi
+*.chs.h
+.stack-work/
+.HTF/
+.cabal-sandbox/
+cabal.sandbox.config
+
+# Logs and databases
 *.log
 logs/
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.sql.gz
 
-# Temporary files
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Archives / Compressed
+*.tar
+*.tar.gz
+*.tgz
+*.tar.bz2
+*.tar.xz
+*.zip
+*.rar
+*.7z
+*.gz
+*.bz2
+*.xz
+*.lz
+*.lzma
+*.zst
+
+# Misc / Temp
+*.bak
 *.tmp
 *.temp
-.tmp/
-ov.conf
+*.orig
+*.rej
+*.patch
+*.diff
+*~
+\#*\#
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Docker
+*.dockerignore
 
-# pyenv
-.python-version
+# Terraform / Infrastructure
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# celery beat schedule file
-celerybeat-schedule
+# Kubernetes
+*.kubeconfig
 
-# SageMath parsed files
-*.sage.py
+# Jupyter / Data Science
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+.jupyter/
+profile_default/
+ipython_config.py
 
-# Environments
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# LaTeX
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+*.bbl
+*.blg
+*.fdb_latexmk
+*.synctex
+*.synctex.gz
+*.pdfsync
 
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-openviking/bin/
-test_scripts/
-test_large_scale_collection/
-
-# Test-generated directories
-.tmp_*/
-db_test_*/
-test_recall_collection/
-test_db_*/
-test_project_root/
-benchmark_stress_db/
-examples/data/
-third_party/agfs/bin/
-openviking/_version.py
-specs/
+# Misc build artifacts
+*.min.js
+*.min.css
+*.map
+*.bundle.js
+*.chunk.js
