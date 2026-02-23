@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Optional, Union
 from openviking.client import LocalClient, Session
 from openviking.service.debug_service import SystemStatus
 from openviking_cli.client.base import BaseClient
+from openviking_cli.retrieve.types import FindResult
 from openviking_cli.session.user_id import UserIdentifier
 from openviking_cli.utils import get_logger
 
@@ -199,7 +200,7 @@ class AsyncOpenViking:
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ):
+    ) -> FindResult:
         """
         Complex search with session context.
 
@@ -232,7 +233,7 @@ class AsyncOpenViking:
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ):
+    ) -> FindResult:
         """Semantic search"""
         await self._ensure_initialized()
         return await self._client.find(

@@ -6,10 +6,11 @@ Search Service for OpenViking.
 Provides semantic search operations: search, find.
 """
 
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Dict, Optional
 
 from openviking.storage.viking_fs import VikingFS
 from openviking_cli.exceptions import NotInitializedError
+from openviking_cli.retrieve.types import FindResult
 from openviking_cli.utils import get_logger
 
 if TYPE_CHECKING:
@@ -42,7 +43,7 @@ class SearchService:
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ) -> Any:
+    ) -> FindResult:
         """Complex search with session context.
 
         Args:
@@ -78,7 +79,7 @@ class SearchService:
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ) -> Any:
+    ) -> FindResult:
         """Semantic search without session context.
 
         Args:

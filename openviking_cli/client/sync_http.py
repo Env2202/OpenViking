@@ -5,10 +5,15 @@
 Wraps AsyncHTTPClient with synchronous methods.
 """
 
-from typing import Any, Dict, List, Optional, Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from openviking_cli.client.http import AsyncHTTPClient
 from openviking_cli.utils import run_async
+
+if TYPE_CHECKING:
+    from openviking_cli.retrieve.types import FindResult
 
 
 class SyncHTTPClient:
@@ -117,7 +122,7 @@ class SyncHTTPClient:
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ):
+    ) -> FindResult:
         """Semantic search with optional session context."""
         return run_async(
             self._async_client.search(
@@ -138,7 +143,7 @@ class SyncHTTPClient:
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ):
+    ) -> FindResult:
         """Semantic search without session context."""
         return run_async(self._async_client.find(query, target_uri, limit, score_threshold, filter))
 

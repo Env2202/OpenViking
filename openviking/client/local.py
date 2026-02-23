@@ -5,11 +5,18 @@
 Implements BaseClient interface using direct service calls (embedded mode).
 """
 
-from typing import Any, Dict, List, Optional, Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from openviking.service import OpenVikingService
 from openviking_cli.client.base import BaseClient
+from openviking_cli.retrieve.types import FindResult
 from openviking_cli.session.user_id import UserIdentifier
+
+if TYPE_CHECKING:
+    from openviking.service.debug_service import ObserverService, SystemStatus
+    from openviking.session import Session as FullSession
 
 
 class LocalClient(BaseClient):
@@ -165,7 +172,7 @@ class LocalClient(BaseClient):
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict[str, Any]] = None,
-    ) -> Any:
+    ) -> FindResult:
         """Semantic search without session context."""
         return await self._service.search.find(
             query=query,
@@ -183,7 +190,7 @@ class LocalClient(BaseClient):
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict[str, Any]] = None,
-    ) -> Any:
+    ) -> FindResult:
         """Semantic search with optional session context."""
         session = None
         if session_id:
@@ -286,7 +293,7 @@ class LocalClient(BaseClient):
         """Check service health."""
         return True  # Local service is always healthy if initialized
 
-    def session(self, session_id: Optional[str] = None) -> Any:
+    def session(self, session_id: Optional[str] = None) -> FullSession:
         """Create a new session or load an existing one.
 
         Args:
@@ -305,7 +312,7 @@ class LocalClient(BaseClient):
             session_id=session_id,
         )
 
-    def get_status(self) -> Any:
+    def get_status(self) -> SystemStatus:
         """Get system status.
 
         Returns:
@@ -322,6 +329,6 @@ class LocalClient(BaseClient):
         return self._service.debug.observer.is_healthy()
 
     @property
-    def observer(self) -> Any:
+    def observer(self) -> ObserverService:
         """Get observer service for component status."""
         return self._service.debug.observer

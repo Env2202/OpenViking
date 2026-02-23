@@ -4,13 +4,17 @@
 Synchronous OpenViking client implementation.
 """
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from __future__ import annotations
 
-if TYPE_CHECKING:
-    from openviking.session import Session
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from openviking.async_client import AsyncOpenViking
 from openviking_cli.utils import run_async
+
+if TYPE_CHECKING:
+    from openviking.service.debug_service import SystemStatus
+    from openviking.session import Session
+    from openviking_cli.retrieve.types import FindResult
 
 
 class SyncOpenViking:
@@ -97,12 +101,12 @@ class SyncOpenViking:
         self,
         query: str,
         target_uri: str = "",
-        session: Optional["Session"] = None,
+        session: Optional[Session] = None,
         session_id: Optional[str] = None,
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ):
+    ) -> FindResult:
         """Execute complex retrieval (intent analysis, hierarchical retrieval)."""
         return run_async(
             self._async_client.search(
@@ -116,7 +120,7 @@ class SyncOpenViking:
         target_uri: str = "",
         limit: int = 10,
         score_threshold: Optional[float] = None,
-    ):
+    ) -> FindResult:
         """Quick retrieval"""
         return run_async(self._async_client.find(query, target_uri, limit, score_threshold))
 
@@ -201,11 +205,12 @@ class SyncOpenViking:
         """Create directory"""
         return run_async(self._async_client.mkdir(uri))
 
-    def get_status(self):
+    def get_status(self) -> Union[SystemStatus, Dict[str, Any]]:
         """Get system status.
 
         Returns:
-            SystemStatus containing health status of all components.
+            SystemStatus (embedded mode) or Dict (HTTP mode) containing
+            health status of all components.
         """
         if not self._initialized:
             self.initialize()

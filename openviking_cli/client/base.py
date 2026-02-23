@@ -5,8 +5,13 @@
 Defines the abstract base class that both LocalClient and AsyncHTTPClient implement.
 """
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+
+if TYPE_CHECKING:
+    from openviking_cli.retrieve.types import FindResult
 
 
 class BaseClient(ABC):
@@ -132,7 +137,7 @@ class BaseClient(ABC):
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ) -> Any:
+    ) -> FindResult:
         """Semantic search without session context."""
         ...
 
@@ -145,7 +150,7 @@ class BaseClient(ABC):
         limit: int = 10,
         score_threshold: Optional[float] = None,
         filter: Optional[Dict] = None,
-    ) -> Any:
+    ) -> FindResult:
         """Semantic search with optional session context."""
         ...
 
@@ -242,11 +247,12 @@ class BaseClient(ABC):
         ...
 
     @abstractmethod
-    def get_status(self) -> Any:
+    def get_status(self) -> Union[Any, Dict[str, Any]]:
         """Get system status.
 
         Returns:
-            SystemStatus or Dict containing health status of all components.
+            SystemStatus (embedded mode) or Dict (HTTP mode) containing
+            health status of all components.
         """
         ...
 
