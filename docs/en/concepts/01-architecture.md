@@ -65,15 +65,32 @@ OpenViking is a context database designed for AI Agents, unifying all context ty
 
 The Service layer decouples business logic from the transport layer, enabling reuse across HTTP Server and CLI:
 
-| Service | Responsibility | Key Methods |
-|---------|----------------|-------------|
-| **FSService** | File system operations | ls, mkdir, rm, mv, tree, stat, read, abstract, overview, grep, glob |
-| **SearchService** | Semantic search | search, find |
-| **SessionService** | Session management | session, sessions, commit, delete |
-| **ResourceService** | Resource import | add_resource, add_skill, wait_processed |
-| **RelationService** | Relation management | relations, link, unlink |
-| **PackService** | Import/export | export_ovpack, import_ovpack |
-| **DebugService** | Debug service | observer (ObserverService) |
+| Service | Responsibility | Key Methods | Base Class |
+|---------|----------------|-------------|------------|
+| **FSService** | File system operations | ls, mkdir, rm, mv, tree, stat, read, abstract, overview, grep, glob | `VikingFSService` |
+| **SearchService** | Semantic search | search, find | `VikingFSService` |
+| **SessionService** | Session management | session, sessions, commit, delete | — |
+| **ResourceService** | Resource import | add_resource, add_skill, wait_processed | — |
+| **RelationService** | Relation management | relations, link, unlink | `VikingFSService` |
+| **PackService** | Import/export | export_ovpack, import_ovpack | `VikingFSService` |
+| **DebugService** | Debug service | observer (ObserverService) | — |
+
+### Service Base Classes
+
+Services that depend on a single `VikingFS` instance extend `VikingFSService` (defined in `openviking/service/_helpers.py`):
+
+```python
+from openviking.service import VikingFSService
+
+class MyService(VikingFSService):
+    """Inherits __init__, set_viking_fs, and _ensure_initialized."""
+    
+    async def do_something(self):
+        vfs = self._ensure_initialized()  # Returns VikingFS or raises NotInitializedError
+        return await vfs.some_operation()
+```
+
+Services with multiple dependencies (like `ResourceService` which needs `VikingFS`, `ResourceProcessor`, and `SkillProcessor`) implement their own initialization logic.
 
 ## Dual-Layer Storage
 
@@ -173,3 +190,4 @@ curl http://localhost:1933/api/v1/search/find \
 - [Retrieval Mechanism](./07-retrieval.md) - Retrieval process details
 - [Context Extraction](./06-extraction.md) - Parsing and extraction process
 - [Session Management](./08-session.md) - Session and memory management
+- [Refactor Plan](../../REFACTOR_PLAN.md) - Ongoing codebase improvements

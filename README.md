@@ -506,6 +506,8 @@ OpenViking/
 │   ├── models/             # Model integration: VLM and Embedding model encapsulation
 │   ├── parse/              # Resource parsing: file parsing, detection, OVPack handling
 │   ├── retrieve/           # Retrieval module: semantic retrieval, directory recursive retrieval
+│   ├── service/            # Service layer: business logic (FSService, SearchService, etc.)
+│   │   └── _helpers.py     # Shared helpers: VikingFSService base class, utilities
 │   ├── storage/            # Storage layer: vector DB, filesystem queue, observers
 │   ├── session/            # Session management: history, memory extraction
 │   ├── message/            # Message processing: formatting, conversion
@@ -522,12 +524,14 @@ OpenViking/
 │   ├── engine/             # Engine tests
 │   ├── integration/        # Integration tests
 │   ├── session/            # Session tests
+│   ├── misc/               # Miscellaneous tests (refactor helpers, etc.)
 │   └── vectordb/           # Vector DB tests
 ├── src/                     # C++ extensions (high-performance index and storage)
 │   ├── common/             # Common components
 │   ├── index/              # Index implementation
 │   └── store/              # Storage implementation
 ├── third_party/             # Third-party dependencies
+├── REFACTOR_PLAN.md         # Ongoing refactoring plan
 ├── pyproject.toml           # Python project configuration
 ├── setup.py                 # Setup script
 ├── LICENSE                  # Open source license
@@ -536,6 +540,15 @@ OpenViking/
 └── README.md                # Project readme
 ```
 
+### Service Layer Architecture
+
+The Service layer (`openviking/service/`) follows a base class pattern for services that depend on `VikingFS`:
+
+- **VikingFSService**: Base class providing `__init__`, `set_viking_fs`, and `_ensure_initialized`
+- **FSService**, **SearchService**, **RelationService**, **PackService**: Extend `VikingFSService`
+- **SessionService**, **ResourceService**: Custom initialization (multiple dependencies)
+
+See [Architecture Overview](./docs/en/concepts/01-architecture.md) for details.
 
 ---
 
